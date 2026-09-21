@@ -1,35 +1,78 @@
 # AM2 Evidence Notes
 
-This document will evolve as the forecasting project develops.
+This document evolves as the forecasting project develops.
 
-## Current evidence
+## Problem framing
 
-### Problem framing
 Power-demand prediction is formulated as a supervised time-series forecasting problem.
 
-### Data engineering
-The project demonstrates reproducible public-data acquisition, timestamp parsing, column standardisation and chronological validation.
+## Data engineering
 
-### Statistical forecasting
-The first benchmark includes naive, seasonal-naive and Holt-Winters exponential-smoothing models.
+The repository demonstrates:
 
-### Evaluation
-Forecasts are evaluated using MAE, RMSE, MAPE and sMAPE.
+- reproducible UCI data acquisition
+- timestamp parsing
+- column normalisation
+- chronological ordering checks
+- deterministic temporal splitting
 
-### Leakage prevention
-The repository explicitly avoids random train/test splitting and preserves temporal order.
+## Statistical forecasting
 
-### Reproducibility
-Dependencies, tests, deterministic split logic and GitHub Actions CI are included from the first phase.
+Phase 1 benchmarks:
+
+- naive forecasting
+- seasonal-naive forecasting
+- Holt-Winters exponential smoothing
+
+## Machine-learning forecasting
+
+Phase 2 converts historical demand into supervised features using:
+
+- lagged observations
+- shifted rolling statistics
+- calendar variables
+
+Tree-based regressors are then benchmarked under expanding-window temporal validation.
+
+## Leakage prevention
+
+The project includes several explicit leakage controls:
+
+- no random train/test splitting
+- lag features use past observations only
+- rolling features are shifted before aggregation
+- the final test period remains later than the development period
+- observed future weather is excluded from the initial ML feature set
+
+## Evaluation
+
+Forecasts are compared using:
+
+- MAE
+- RMSE
+- MAPE
+- sMAPE
+
+The ML benchmark records performance across multiple temporal folds before final test evaluation.
+
+## Reproducibility
+
+The repository includes:
+
+- packaged Python modules
+- declared dependencies
+- deterministic model seeds
+- unit tests
+- GitHub Actions CI
+- reproducible scripts
+- generated result tables
 
 ## Evidence still to add
 
-- lag and rolling feature engineering
-- tree-based machine-learning models
-- expanding-window validation
-- deep-learning forecast
+- compact deep-learning forecast
 - pretrained time-series foundation model
 - zero-shot comparison
+- runtime/resource comparison
 - probabilistic intervals
 - robustness and error analysis
 - experiment tracking
