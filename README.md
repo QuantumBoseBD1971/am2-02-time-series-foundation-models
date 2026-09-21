@@ -2,63 +2,51 @@
 
 A comparative forecasting project using the **UCI Power Consumption of Tetouan City** dataset.
 
-The project is designed to compare the evolution of forecasting approaches:
+The project compares the evolution of forecasting approaches:
 
-**naive/statistical baselines → machine learning → deep learning → time-series foundation models**
+**statistical baselines → machine learning → deep learning → pretrained time-series foundation models**
 
-The key engineering principle is that validation is strictly temporal: future observations are never allowed to leak into training.
+The central engineering constraint is temporal integrity: future observations must never leak into model development.
 
 ## Research question
 
 > How do conventional statistical and machine-learning forecasting methods compare with modern pretrained time-series foundation models when evaluated on the same future forecasting horizon?
 
+## Current benchmark
+
+### Statistical layer
+- naive
+- seasonal naive
+- Holt-Winters exponential smoothing
+
+### Machine-learning layer
+- lagged demand features
+- shifted rolling statistics
+- calendar features
+- Random Forest
+- Extra Trees
+- Histogram Gradient Boosting
+- expanding-window validation
+
+Later phases add deep learning and zero-shot foundation-model forecasting.
+
 ## Dataset
 
-Source: UCI Machine Learning Repository — **Power Consumption of Tetouan City**.
+UCI **Power Consumption of Tetouan City**:
 
-- UCI dataset id: `849`
 - 52,417 observations
 - 10-minute sampling frequency
-- weather variables plus three power-consumption targets
-- no missing values reported by the source
+- three power-consumption zones
+- weather measurements
 - DOI: `10.24432/C5B034`
 
-This project initially forecasts **Zone 1 power consumption**. Later phases can extend the benchmark to Zones 2 and 3 and to multivariate forecasting.
+The initial target is Zone 1 power consumption.
 
-The raw dataset is downloaded reproducibly and is not committed to Git.
+## Temporal evaluation
 
-## Project phases
+The repository never performs a random train/test split.
 
-### Phase 1 — statistical baseline layer
-- reproducible UCI data loader
-- timestamp parsing and validation
-- chronological train/validation/test split
-- naive forecast
-- seasonal-naive forecast
-- exponential smoothing
-- MAE, RMSE, MAPE and sMAPE
-- CI and tests
-
-### Phase 2 — machine-learning forecasting
-- lag features
-- rolling-window features
-- calendar features
-- tree-based regressors
-- walk-forward / expanding-window validation
-
-### Phase 3 — deep learning and foundation models
-- compact neural forecasting baseline
-- Chronos-style pretrained foundation model
-- zero-shot forecasting comparison
-- runtime and resource comparison
-
-### Phase 4 — probabilistic and production evaluation
-- interval coverage
-- robustness
-- experiment tracking
-- model card
-- deployment/MLOps design
-- final AM2 evidence synthesis
+Development follows chronological train/validation/test windows, and ML model comparison uses expanding-window cross-validation.
 
 ## Quick start
 
@@ -74,23 +62,27 @@ pip install -e ".[dev]"
 
 python scripts/download_data.py
 python scripts/run_baselines.py
+python scripts/run_ml_forecasting.py
 pytest
 ```
 
-## Evaluation metrics
-
-Forecasts are evaluated with:
+## Metrics
 
 - MAE
 - RMSE
 - MAPE
 - sMAPE
 
-No random train/test split is used.
+## Development status
+
+- **Phase 1 — complete:** statistical baselines, temporal split, tests and CI.
+- **Phase 2 — in progress:** lag/rolling features, tree-based forecasting and expanding-window validation.
+- **Phase 3 — planned:** deep learning and pretrained time-series foundation models.
+- **Phase 4 — planned:** probabilistic evaluation, robustness, experiment tracking, MLOps and final AM2 evidence.
 
 ## Responsible use
 
-This repository is an educational benchmark. Results from this historical public dataset should not be interpreted as evidence that a forecasting model is ready for grid-operation or energy-market decisions.
+This is an educational benchmark. Historical public-data results are not sufficient evidence for real grid-operation or energy-market decisions.
 
 ## Licence
 
