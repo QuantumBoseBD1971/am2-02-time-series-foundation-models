@@ -6,7 +6,6 @@ import pandas as pd
 
 from time_series_foundation_models.config import DATETIME_COLUMN, TARGET_COLUMN
 
-
 DEFAULT_LAGS = (1, 6, 12, 18, 36, 72, 144)
 DEFAULT_ROLLING_WINDOWS = (6, 18, 36, 144)
 
