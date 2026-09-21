@@ -2,87 +2,75 @@
 
 A comparative forecasting project using the **UCI Power Consumption of Tetouan City** dataset.
 
-The project compares the evolution of forecasting approaches:
+The project compares:
 
-**statistical baselines → machine learning → deep learning → pretrained time-series foundation models**
+**statistical baselines → machine learning → neural forecasting → pretrained time-series foundation models**
 
-The central engineering constraint is temporal integrity: future observations must never leak into model development.
+The central constraint is temporal integrity: future observations must never leak into model development.
 
-## Research question
+## Current model families
 
-> How do conventional statistical and machine-learning forecasting methods compare with modern pretrained time-series foundation models when evaluated on the same future forecasting horizon?
-
-## Current benchmark
-
-### Statistical layer
+### Statistical
 - naive
 - seasonal naive
 - Holt-Winters exponential smoothing
 
-### Machine-learning layer
-- lagged demand features
-- shifted rolling statistics
-- calendar features
+### Machine learning
 - Random Forest
 - Extra Trees
 - Histogram Gradient Boosting
+- leakage-safe lag/rolling/calendar features
 - expanding-window validation
 
-Later phases add deep learning and zero-shot foundation-model forecasting.
+### Neural
+- three-hidden-layer MLP regression baseline
 
-## Dataset
+### Foundation model
+- Amazon Chronos-2 zero-shot forecasting via optional `chronos-forecasting` dependencies
 
-UCI **Power Consumption of Tetouan City**:
-
-- 52,417 observations
-- 10-minute sampling frequency
-- three power-consumption zones
-- weather measurements
-- DOI: `10.24432/C5B034`
-
-The initial target is Zone 1 power consumption.
-
-## Temporal evaluation
-
-The repository never performs a random train/test split.
-
-Development follows chronological train/validation/test windows, and ML model comparison uses expanding-window cross-validation.
+Chronos-2 currently exposes a DataFrame-based `predict_df` API for zero-shot forecasting, including quantile outputs. The project keeps this dependency optional so normal CI remains lightweight.
 
 ## Quick start
 
 ```bash
 python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-# source .venv/bin/activate
-
+.venv\Scripts\activate  # Windows
 python -m pip install --upgrade pip
 pip install -e ".[dev]"
 
 python scripts/download_data.py
 python scripts/run_baselines.py
 python scripts/run_ml_forecasting.py
+python scripts/run_neural_forecasting.py
 pytest
 ```
 
-## Metrics
+To run the foundation-model experiment:
+
+```bash
+pip install -e ".[foundation]"
+python scripts/run_chronos_forecasting.py
+```
+
+## Evaluation
 
 - MAE
 - RMSE
 - MAPE
 - sMAPE
+- runtime
+- approximate peak Python memory
 
 ## Development status
 
-- **Phase 1 — complete:** statistical baselines, temporal split, tests and CI.
-- **Phase 2 — in progress:** lag/rolling features, tree-based forecasting and expanding-window validation.
-- **Phase 3 — planned:** deep learning and pretrained time-series foundation models.
-- **Phase 4 — planned:** probabilistic evaluation, robustness, experiment tracking, MLOps and final AM2 evidence.
+- **Phase 1 — complete:** statistical baselines and temporal split.
+- **Phase 2 — complete:** ML features, tree models and expanding-window validation.
+- **Phase 3 — in progress:** neural and Chronos-2 zero-shot forecasting.
+- **Phase 4 — planned:** probabilistic evaluation, robustness, experiment tracking, model card, MLOps and final AM2 synthesis.
 
 ## Responsible use
 
-This is an educational benchmark. Historical public-data results are not sufficient evidence for real grid-operation or energy-market decisions.
+This is an educational benchmark. Historical public-data performance is not sufficient evidence for real grid-operation or energy-market decisions.
 
 ## Licence
 
