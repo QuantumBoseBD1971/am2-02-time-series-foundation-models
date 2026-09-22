@@ -1,0 +1,34 @@
+{
+  "project": "am2-02-time-series-foundation-models",
+  "generated_from": "local reproducible result artefacts",
+  "best_statistical": {
+    "model": "seasonal_naive",
+    "mae": 1971.47182649752,
+    "rmse": 2574.2136838530687,
+    "mape": 6.558681947258248,
+    "smape": 6.902912861514686
+  },
+  "machine_learning": {
+    "model": "extra_trees",
+    "mae": 223.9046079758227,
+    "rmse": 330.0265946747203,
+    "mape": 0.7865876533110734,
+    "smape": 0.7841524392476519
+  },
+  "neural": {
+    "model": "mlp_128_64_32",
+    "mae": 272.77077941542245,
+    "rmse": 383.6210081408748,
+    "mape": 0.9768143999590888,
+    "smape": 0.9716113911069694,
+    "fit_seconds": 42.30293354699998,
+    "fit_peak_memory_mb": 23.428587913513184,
+    "predict_seconds": 0.0179168409999874,
+    "predict_peak_memory_mb": 12.786457061767578
+  },
+  "robustness": {
+    "mean_absolute_error": 223.90460797582273,
+    "median_absolute_error": 157.78416344668221,
+    "max_absolute_error": 5348.574165259986
+  }
+}
