@@ -1,0 +1,92 @@
+name: Run real forecasting experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_chronos:
+        description: Run the heavier Chronos-2 foundation-model benchmark
+        required: true
+        default: false
+        type: boolean
+      commit_evidence:
+        description: Commit the generated evidence pack back to the selected branch
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install core project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Download dataset
+        run: python scripts/download_data.py
+
+      - name: Run statistical baselines
+        run: python scripts/run_baselines.py
+
+      - name: Run ML forecasting
+        run: python scripts/run_ml_forecasting.py
+
+      - name: Run neural forecasting
+        run: python scripts/run_neural_forecasting.py
+
+      - name: Install foundation-model dependencies
+        if: ${{ inputs.run_chronos }}
+        run: pip install -e ".[foundation]"
+
+      - name: Run Chronos-2 zero-shot benchmark
+        if: ${{ inputs.run_chronos }}
+        run: python scripts/run_chronos_forecasting.py
+
+      - name: Finalise project results
+        run: python scripts/finalise_project.py
+
+      - name: Build assessor evidence pack
+        run: python scripts/build_evidence_pack.py
+
+      - name: Upload complete experiment outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: am2-02-real-forecasting-results
+          path: |
+            results/
+            evidence/
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Commit compact evidence pack
+        if: ${{ inputs.commit_evidence }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f evidence/
+          if git diff --cached --quiet; then
+            echo "No evidence changes to commit."
+            exit 0
+          fi
+          git commit -m "Add real forecasting experiment evidence"
+          git push origin HEAD:${{ github.ref_name }}
