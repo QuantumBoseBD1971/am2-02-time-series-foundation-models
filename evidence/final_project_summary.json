@@ -10,21 +10,34 @@
   },
   "machine_learning": {
     "model": "extra_trees",
-    "mae": 223.9046079758227,
+    "mae": 223.90460797582276,
     "rmse": 330.0265946747203,
     "mape": 0.7865876533110734,
     "smape": 0.7841524392476519
   },
   "neural": {
     "model": "mlp_128_64_32",
-    "mae": 272.77077941542245,
-    "rmse": 383.6210081408748,
-    "mape": 0.9768143999590888,
-    "smape": 0.9716113911069694,
-    "fit_seconds": 42.30293354699998,
-    "fit_peak_memory_mb": 23.428587913513184,
-    "predict_seconds": 0.0179168409999874,
+    "mae": 272.77077941542234,
+    "rmse": 383.6210081408746,
+    "mape": 0.9768143999590886,
+    "smape": 0.9716113911069691,
+    "fit_seconds": 31.859492499,
+    "fit_peak_memory_mb": 23.42631721496582,
+    "predict_seconds": 0.0112734040000077,
     "predict_peak_memory_mb": 12.786457061767578
+  },
+  "foundation_model": {
+    "model": "chronos_2_zero_shot",
+    "mae": 5285.033953618212,
+    "rmse": 6801.506941160976,
+    "mape": 16.6003760857042,
+    "smape": 18.95505005411736,
+    "predict_seconds": 86.21667632499998,
+    "predict_peak_memory_mb": 223.09845542907715
+  },
+  "probabilistic": {
+    "interval_coverage_80": 0.6179575225740811,
+    "mean_interval_width_80": 9885.843789838485
   },
   "robustness": {
     "mean_absolute_error": 223.90460797582273,

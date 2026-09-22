@@ -24,13 +24,20 @@ Large datasets and full prediction artefacts remain outside Git; selected metric
 - Model: **mlp_128_64_32**
 - MAE: **272.7708**
 - RMSE: **383.6210**
-- Fit time: **42.3029 s**
-- Prediction time: **0.0179 s**
+- Fit time: **31.8595 s**
+- Prediction time: **0.0113 s**
 
 ## Foundation model
 
-- Chronos-2 was **not run in this execution**.
-- Re-run the workflow with **Run Chronos-2 foundation model** enabled to add foundation-model results.
+- Model: **chronos_2_zero_shot**
+- MAE: **5285.0340**
+- RMSE: **6801.5069**
+- Prediction time: **86.2167 s**
+
+## Probabilistic evaluation
+
+- 80% interval coverage: **0.6180**
+- Mean 80% interval width: **9885.8438**
 
 ## ML residual analysis
 
