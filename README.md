@@ -93,3 +93,12 @@ This is an educational benchmark. Historical public-data performance is not suff
 ## Licence
 
 Code: MIT. Dataset: UCI source licence/citation requirements apply.
+
+
+## Real experiment evidence
+
+A manual GitHub Actions workflow named **Run real forecasting experiment** executes the actual benchmark and can commit a compact evidence pack under the evidence directory.
+
+The standard run covers statistical, ML and neural forecasting. A separate workflow input enables the heavier Chronos-2 zero-shot foundation-model run.
+
+See docs/running_real_experiment.md.
